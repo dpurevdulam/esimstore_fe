@@ -39,7 +39,7 @@ const CircularProgress = ({percent, balance}) => {
 
   return (
     <View style={styles.container}>
-      <View style={[styles.firstProgressLayer, firstProgressLayerStyle]}></View>
+      <View style={[styles.firstProgressLayer, firstProgressLayerStyle]}/>
       <Text style={styles.txt1}>Үлдэгдэл дата</Text>
       <Text style={styles.txt2}>{balance}</Text>
       {renderThirdLayer(percent)}

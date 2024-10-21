@@ -1,16 +1,14 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
-  ActivityIndicator,
-  Dimensions,
   Image,
   SafeAreaView,
   ScrollView,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 import AngleRightCircle from '../assets/icons/AngleRightCircle';
 import BoltCircleAlt from '../assets/icons/BoltCircleAlt';
 import Esim from '../assets/icons/Esim';
@@ -18,35 +16,35 @@ import Facebook from '../assets/icons/Facebook';
 import Instagram from '../assets/icons/Instagram';
 import SimCard from '../assets/icons/SimCard';
 import Viber from '../assets/icons/Viber';
-import {AuthResponse} from '../entities/Auth';
-import {service} from '../services';
-import {OrderInfo} from '../entities/Order';
-import Spinner from 'react-native-loading-spinner-overlay';
+import { AuthResponse } from '../entities/Auth';
+import { OrderInfo } from '../entities/Order';
+import { service } from '../services';
+import styles from '../styles/Styles';
 
 const Home = ({navigation}) => {
   const image = require('../assets/images/2.png');
   const [number, onChangeNumber] = React.useState('');
   const [loading, setLoading] = useState<boolean>(false);
   return (
-    <SafeAreaView style={{backgroundColor: 'white'}}>
+    <SafeAreaView style={styles.container3}>
       <Spinner
         visible={loading}
         textContent={'Loading...'}
-        textStyle={{color: '#ffffff'}}
+        textStyle={styles.color4}
       />
       <ScrollView>
         <View
           style={[
             styles.ml5,
             styles.mr5,
-            styles.rowContainer,
+            styles.container1,
             styles.justifyBetween,
           ]}>
           <View style={styles.w50}>
             <Esim />
           </View>
           <View
-            style={[styles.w50, styles.rowContainer, styles.justifyBetween]}>
+            style={[styles.w50, styles.container1, styles.justifyBetween]}>
             <Instagram />
             <Facebook />
             <Viber />
@@ -56,12 +54,12 @@ const Home = ({navigation}) => {
           <Image style={styles.stretch} source={image} />
         </View>
         <View
-          style={[styles.ml5, styles.mr5, styles.rowContainer, styles.guide]}>
+          style={[styles.ml5, styles.mr5, styles.container1, styles.guide, styles.pt5, styles.pb5]}>
           <View style={[styles.ml5, styles.w5]}>
             <SimCard />
           </View>
           <Text
-            style={[styles.guideTxt, styles.color1, styles.ml5, styles.w75]}>
+            style={[styles.txt8, styles.bcolor1, styles.color2, styles.ml5, styles.w75]}>
             Esim суулгах заавар харах
           </Text>
           <View style={[styles.pr5, styles.alignItems, styles.w5]}>
@@ -78,10 +76,11 @@ const Home = ({navigation}) => {
             styles.mr5,
             styles.p5,
             styles.input,
-            styles.guideTxt,
+            styles.txt8,
+            styles.color2,
           ]}
           keyboardType="numeric"
-          defaultValue="23232323"
+          maxLength={8}
           onChangeText={onChangeNumber}
           value={number}
         />
@@ -89,10 +88,13 @@ const Home = ({navigation}) => {
           Та Order ID - аа хийснээр өөрийн дата хэрэглээгээ хянах боложмтой
           болох юм.
         </Text>
-        <View style={styles.container}>
+        <View style={styles.container2}>
           <TouchableOpacity
-            style={[styles.button, styles.rowContainer]}
+            style={[styles.button, styles.bcolor2, styles.container1]}
             onPress={() => {
+              if (number === '') {
+                return;
+              }
               setLoading(true);
               service
                 .login()
@@ -128,126 +130,12 @@ const Home = ({navigation}) => {
                 });
             }}>
             <BoltCircleAlt />
-            <Text style={styles.btnTxt}>Үргэлжлүүлэх</Text>
+            <Text style={[styles.txt7, styles.pt1, styles.pl2]}>Үргэлжлүүлэх</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  rowContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  m5: {
-    margin: '5%',
-  },
-  ml5: {
-    marginLeft: '5%',
-  },
-  mr5: {
-    marginRight: '5%',
-  },
-  mt5: {
-    marginTop: '5%',
-  },
-  mb5: {
-    marginBottom: '5%',
-  },
-  mb2: {
-    marginBottom: '2%',
-  },
-  pl5: {
-    paddingLeft: '5%',
-  },
-  pr5: {
-    paddingRight: '5%',
-  },
-  p5: {
-    padding: '5%',
-  },
-  w50: {
-    width: '50%',
-  },
-  w75: {
-    width: '75%',
-  },
-  w5: {
-    width: '5%',
-  },
-  w10: {
-    width: '10%',
-  },
-  justifyBetween: {
-    justifyContent: 'space-between',
-  },
-  stretch: {
-    width: Dimensions.get('window').width - 40,
-    height: Dimensions.get('window').width - 40,
-    resizeMode: 'stretch',
-  },
-  guide: {
-    backgroundColor: '#f7f7f7',
-    height: 72,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  guideTxt: {
-    fontFamily: 'BreezeSans',
-    fontSize: 16,
-    fontWeight: '400',
-    color: '#3B1F61',
-  },
-  txt2: {
-    fontFamily: 'BreezeSans',
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#3B1F61',
-  },
-  txt3: {
-    fontFamily: 'BreezeSans',
-    fontSize: 14,
-    fontWeight: '400',
-    color: '#A0A1AC',
-    textAlign: 'center',
-  },
-  input: {
-    backgroundColor: '#f7f7f7',
-    height: 56,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-  },
-  button: {
-    justifyContent: 'center',
-    backgroundColor: '#69C2A7',
-    padding: 10,
-    borderRadius: 12,
-  },
-  btnTxt: {
-    fontFamily: 'BreezeSans',
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#FFFFFF',
-    paddingTop: 2,
-    paddingLeft: 2,
-  },
-  borderCheck: {
-    borderWidth: 1,
-    borderColor: 'black',
-  },
-  color1: {
-    backgroundColor: '#f7f7f7',
-  },
-  alignItems: {
-    alignItems: 'baseline',
-  },
-});
 
 export default Home;
